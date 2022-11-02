@@ -1,0 +1,264 @@
+﻿<UserControl x:Class="CarService.Views.VehicleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cv="clr-namespace:CarService.Converters"
+             xmlns:vm="clr-namespace:CarService.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="1260">
+
+    <Grid x:Name="gr_Vehicle">
+
+        <Grid.DataContext>
+            <vm:VehicleViewModel></vm:VehicleViewModel>
+        </Grid.DataContext>
+
+        <Grid.Resources>
+            <cv:IsVisibleConverter x:Key="IsVisibleConverter"/>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="200" />
+            <RowDefinition MinHeight="190" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Button x:Name="btn_Back"
+                    Width="150"
+                    Height="50"
+                    Margin="50,0,0,0"
+                    HorizontalAlignment="Left"
+                    Padding="0"
+                    Foreground="#FFDD00"
+                    Background="#373E46"
+                    BorderBrush="#373E46"
+                    Click="btn_Back_Click">
+
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="ArrowLeft"
+                                             Height="30"
+                                             Width="30" />
+
+                    <TextBlock Text="Nazad"
+                               Width="100"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+            </Button>
+
+            <Button x:Name="btn_Save"
+                    Width="150"
+                    Height="50"
+                    Margin="0,0,50,0"
+                    HorizontalAlignment="Right"
+                    IsDefault="True"
+                    Click="btn_Save_Click">
+
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="ContentSave"
+                                             Height="30"
+                                             Width="30" />
+
+                    <TextBlock Text="Spremi"
+                               Width="100"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+            </Button>
+
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Background="{DynamicResource MaterialDesignDarkBackground}"
+              Margin="50,10,50,10">
+
+            <ComboBox x:Name="cb_Brand"
+                      Width="200"
+                      Margin="0,50,750,0"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Top"
+                      FontSize="16"
+                      Foreground="White"
+                      Text="{Binding Brand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      materialDesign:HintAssist.Hint="Marka"
+                      IsEditable="True"
+                      DisplayMemberPath="Name"
+                      SelectionChanged="btn_Brand_SelectionChanged">
+            </ComboBox>
+
+            <ComboBox x:Name="cb_Model"
+                      IsEnabled="False"
+                      Width="200"
+                      Margin="0,50,250,0"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Top"
+                      FontSize="16"
+                      Foreground="White"
+                      materialDesign:HintAssist.Hint="Model"
+                      Text="{Binding Model, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsEditable="True"
+                      DisplayMemberPath="Name">
+            </ComboBox>
+
+            <ComboBox x:Name="cb_Owner"
+                      Width="200"
+                      Margin="250,50,0,0"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Top"
+                      FontSize="16"
+                      Foreground="White"
+                      materialDesign:HintAssist.Hint="Vlasnik"
+                      SelectedValue="{Binding Owner.Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedValuePath="Id"
+                      IsEditable="True"
+                      DisplayMemberPath="Name">
+            </ComboBox>
+
+            <TextBox x:Name="txt_LicencePlate"
+                     Margin="750,35,0,0"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+                     Width="200"
+                     FontSize="15.5"
+                     Foreground="White"
+                     Text="{Binding LicencePlate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:HintAssist.Hint="Broj tablica"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+            <TextBox x:Name="txt_ChassisNumber"
+                     Margin="0,100,750,0"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+                     Width="200"
+                     FontSize="16"
+                     Foreground="White"
+                     Text="{Binding ChassisNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:HintAssist.Hint="Broj šasije"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+            <TextBox x:Name="txt_Engine"
+                     Margin="0,100,380,0"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+                     Width="70"
+                     FontSize="16"
+                     Foreground="White"
+                     Text="{Binding Engine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:HintAssist.Hint="Kubikaža"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+            <TextBox x:Name="txt_EngineNumber"
+                     Margin="0,100,170,0"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+                     Width="120"
+                     FontSize="16"
+                     Foreground="White"
+                     Text="{Binding EngineNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:HintAssist.Hint="Oznaka motora"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+            <TextBox x:Name="txt_Description"
+                     Margin="500,100,0,0"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Top"
+                     Width="450"
+                     FontSize="16"
+                     Foreground="White"
+                     Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:HintAssist.Hint="Opis"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+
+        </Grid>
+
+        <DataGrid x:Name="dg_Services"
+                  Grid.Row="2"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="True"
+                  IsReadOnly="False"
+                  Cursor="Hand" 
+                  Margin="50,0,50,50">
+
+            <DataGrid.DataContext>
+                <vm:ServiceViewModel></vm:ServiceViewModel>
+            </DataGrid.DataContext>
+
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Grid>
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      Margin="15,0"
+                                                      HorizontalAlignment="Left" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.CellStyle>
+
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn Header="Datum">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <DatePicker Width="100"
+                                        SelectedDate="{Binding Date}"
+                                        SelectedDateChanged="dp_Date_SelectedDateChanged" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Kilometraža">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Width="100"
+                                     TextAlignment="Right"
+                                     Text="{Binding Mileage, StringFormat={}{0:### ### ###}}"
+                                     materialDesign:TextFieldAssist.SuffixText=" km" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Opis">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Width="500"
+                                     TextAlignment="Left"
+                                     Text="{Binding Description}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="btn_DeleteService"
+                                    Content="Obriši"
+                                    Margin="10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGridRow}, Path=DataContext, Converter={StaticResource IsVisibleConverter}}"
+                                    Click="btn_DeleteService_Click"
+                                    Tag="{Binding Id}">
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </Grid>
+</UserControl>

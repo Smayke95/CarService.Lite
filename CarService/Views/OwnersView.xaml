@@ -1,0 +1,171 @@
+﻿<UserControl x:Class="CarService.Views.OwnersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:CarService.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450"
+             d:DesignWidth="1260">
+
+    <Grid x:Name="gr_Owners">
+
+        <Grid.DataContext>
+            <vm:OwnerViewModel></vm:OwnerViewModel>
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition MinHeight="390" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Button x:Name="btn_Back"
+                    Width="150"
+                    Height="50"
+                    Margin="50,0,0,0"
+                    HorizontalAlignment="Left"
+                    Padding="0"
+                    Foreground="#FFDD00"
+                    Background="#373E46"
+                    BorderBrush="#373E46"
+                    Click="btn_Back_Click">
+
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="ArrowLeft"
+                                             Height="30"
+                                             Width="30" />
+
+                    <TextBlock Text="Nazad"
+                               Width="100"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+            </Button>
+
+            <TextBox x:Name="txt_FirstName"
+                     Width="200"
+                     Height="50"
+                     Margin="0,0,250,0"
+                     HorizontalAlignment="Center"
+                     FontSize="16"
+                     Foreground="White"
+                     Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:HintAssist.Hint="Ime"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     KeyUp="btn_Search_Click" />
+
+            <TextBox x:Name="txt_LastName"
+                     Width="200"
+                     Height="50"
+                     Margin="250,0,0,0"
+                     HorizontalAlignment="Center"
+                     FontSize="16"
+                     Foreground="White"
+                     Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:HintAssist.Hint="Prezime"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     KeyUp="btn_Search_Click" />
+
+            <Button x:Name="btn_New"
+                    Width="150"
+                    Height="50"
+                    Margin="0,0,50,0"
+                    HorizontalAlignment="Right"
+                    IsDefault="True"
+                    Click="btn_New_Click">
+
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="AccountAdd"
+                                             Height="30"
+                                             Width="30" />
+
+                    <TextBlock Text="Dodaj"
+                               Width="100"
+                               TextAlignment="Center"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+            </Button>
+
+        </Grid>
+
+        <DataGrid x:Name="dg_Owners"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  Cursor="Hand"
+                  Margin="50,10,50,50"
+                  FontSize="18">
+
+            <DataGrid.DataContext>
+                <vm:OwnerViewModel></vm:OwnerViewModel>
+            </DataGrid.DataContext>
+
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Grid>
+                                    <ContentPresenter VerticalAlignment="Center" Margin="15,0" HorizontalAlignment="Left"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.CellStyle>
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="Ime"
+                                    Width="200"
+                                    Binding="{Binding FirstName}" />
+
+                <DataGridTextColumn Header="Prezime"
+                                    Width="200"
+                                    Binding="{Binding LastName}" />
+
+                <DataGridTextColumn Header="Broj telefona"
+                                    Width="200"
+                                    Binding="{Binding Phone, StringFormat=+387 {0}}" />
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="btn_Edit"
+                                    Content="Uredi"
+                                    Margin="10"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Tag="{Binding Id}"
+                                    Click="btn_Edit_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="btn_Delete"
+                                    Content="Obriši"
+                                    Margin="10"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Tag="{Binding Id}"
+                                    Click="btn_Delete_Click" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </Grid>
+</UserControl>
