@@ -1,6 +1,8 @@
 ﻿using CarService.Interfaces;
 using CarService.Services;
 using CarService.ViewModels;
+using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,7 +22,14 @@ namespace CarService.Views
 
         public void Load(int id)
         {
-            gr_Owner.DataContext = OwnerService.Get(id);
+            try
+            {
+                gr_Owner.DataContext = OwnerService.Get(id);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+            }
         }
 
         private void btn_Back_Click(object sender, RoutedEventArgs e)
@@ -28,14 +37,21 @@ namespace CarService.Views
 
         private void btn_Save_Click(object sender, RoutedEventArgs e)
         {
-            var model = (OwnerViewModel)gr_Owner.DataContext;
+            try
+            {
+                var model = (OwnerViewModel)gr_Owner.DataContext;
 
-            if (model.Id == 0)
-                OwnerService.Insert(model);
-            else
-                OwnerService.Update(model);
+                if (model.Id == 0)
+                    OwnerService.Insert(model);
+                else
+                    OwnerService.Update(model);
 
-            ((MainWindow)Application.Current.MainWindow).ContentArea.Content = new OwnersView();
+                ((MainWindow)Application.Current.MainWindow).ContentArea.Content = new OwnersView();
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+            }
         }
     }
 }

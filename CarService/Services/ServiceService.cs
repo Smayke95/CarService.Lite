@@ -16,20 +16,20 @@ namespace CarService.Services
                     .Services!
                     .Where(x => x.VehicleId == vehicleId);
 
-                return App.Mapper.Map<IEnumerable<ServiceViewModel>>(services);
+                return App.Mapper!.Map<IEnumerable<ServiceViewModel>>(services);
             }
         }
 
         public ServiceViewModel Insert(ServiceViewModel model)
         {
-            var addedService = base.Insert(App.Mapper.Map<Service>(model));
-            return App.Mapper.Map<ServiceViewModel>(addedService);
+            var addedService = base.Insert(App.Mapper!.Map<Service>(model));
+            return App.Mapper!.Map<ServiceViewModel>(addedService);
         }
 
         public ServiceViewModel Update(ServiceViewModel model)
         {
-            var updatedService = base.Update(App.Mapper.Map<Service>(model));
-            return App.Mapper.Map<ServiceViewModel>(updatedService);
+            var updatedService = base.Update(App.Mapper!.Map<Service>(model));
+            return App.Mapper!.Map<ServiceViewModel>(updatedService);
         }
     }
 }

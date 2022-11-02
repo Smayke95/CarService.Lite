@@ -2,6 +2,7 @@
 using CarService.Properties;
 using CarService.Views;
 using MaterialDesignThemes.Wpf;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,6 +12,7 @@ namespace CarService
     {
         public MainWindow()
         {
+            Trace.TraceInformation("Application started.");
             InitializeComponent();
 
             MainTitle.Content = Settings.Default.ServiceName;

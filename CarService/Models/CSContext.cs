@@ -1,7 +1,6 @@
 ﻿using CarService.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.IO;
 
 namespace CarService.Models
 {
@@ -18,8 +17,6 @@ namespace CarService.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var documentsFolderLocation = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Car Service LITE";
-            Directory.CreateDirectory(documentsFolderLocation);
-
             optionsBuilder.UseSqlite($"DataSource={documentsFolderLocation}\\CarService.db;");
         }
 

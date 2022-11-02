@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace CarService.Services
 {
@@ -24,7 +23,7 @@ namespace CarService.Services
                         .Include(x => x.Owner)
                         .FirstOrDefault(x => x.Id == id);
 
-                    return App.Mapper.Map<VehicleViewModel>(vehicle) ?? new VehicleViewModel();
+                    return App.Mapper!.Map<VehicleViewModel>(vehicle) ?? new VehicleViewModel();
                 }
 
                 return new VehicleViewModel();
@@ -40,7 +39,7 @@ namespace CarService.Services
                     .Include(x => x.Owner)
                     .ToList();
 
-                return App.Mapper.Map<IEnumerable<VehicleViewModel>>(vehicles);
+                return App.Mapper!.Map<IEnumerable<VehicleViewModel>>(vehicles);
             }
         }
 
@@ -54,20 +53,20 @@ namespace CarService.Services
                     .Where(where)
                     .ToList();
 
-                return App.Mapper.Map<IEnumerable<VehicleViewModel>>(vehicles);
+                return App.Mapper!.Map<IEnumerable<VehicleViewModel>>(vehicles);
             }
         }
 
         public VehicleViewModel Insert(VehicleViewModel model)
         {
-            var addedVehicle = base.Insert(App.Mapper.Map<Vehicle>(model));
-            return App.Mapper.Map<VehicleViewModel>(addedVehicle);
+            var addedVehicle = base.Insert(App.Mapper!.Map<Vehicle>(model));
+            return App.Mapper!.Map<VehicleViewModel>(addedVehicle);
         }
 
         public VehicleViewModel Update(VehicleViewModel model)
         {
-            var updatedVehicle = base.Update(App.Mapper.Map<Vehicle>(model));
-            return App.Mapper.Map<VehicleViewModel>(updatedVehicle);
+            var updatedVehicle = base.Update(App.Mapper!.Map<Vehicle>(model));
+            return App.Mapper!.Map<VehicleViewModel>(updatedVehicle);
         }
     }
 }

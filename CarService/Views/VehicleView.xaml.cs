@@ -2,7 +2,9 @@
 using CarService.Models;
 using CarService.Services;
 using CarService.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,11 +13,11 @@ namespace CarService.Views
 {
     public partial class VehicleView : UserControl
     {
-        private readonly IBrandService? BrandService;
-        private readonly IModelService? ModelService;
-        private readonly IOwnerService? OwnerService;
-        private readonly IServiceService? ServiceService;
-        private readonly IVehicleService? VehicleService;
+        private readonly IBrandService BrandService;
+        private readonly IModelService ModelService;
+        private readonly IOwnerService OwnerService;
+        private readonly IServiceService ServiceService;
+        private readonly IVehicleService VehicleService;
 
         private List<Model> Models { get; set; } = new List<Model>();
 
@@ -33,13 +35,20 @@ namespace CarService.Views
 
         private void Load(int id)
         {
-            cb_Brand.ItemsSource = BrandService.GetAll();
-            Models = ModelService.GetAll().ToList();
-            cb_Owner.ItemsSource = OwnerService.GetAll();
-            gr_Vehicle.DataContext = VehicleService.Get(id);
-            
-            var test = ServiceService.GetAllByVehicle(id);
-            dg_Services.ItemsSource = ServiceService.GetAllByVehicle(id);
+            try
+            {
+                cb_Brand.ItemsSource = BrandService.GetAll();
+                Models = ModelService.GetAll().ToList();
+                cb_Owner.ItemsSource = OwnerService.GetAll();
+                gr_Vehicle.DataContext = VehicleService.Get(id);
+
+                var test = ServiceService.GetAllByVehicle(id);
+                dg_Services.ItemsSource = ServiceService.GetAllByVehicle(id);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+            }
         }
 
         private void btn_Back_Click(object sender, RoutedEventArgs e)
@@ -47,36 +56,50 @@ namespace CarService.Views
 
         private void btn_Save_Click(object sender, RoutedEventArgs e)
         {
-            var model = (VehicleViewModel)gr_Vehicle.DataContext;
-
-            if (model.Id == 0)
-                VehicleService.Insert(model);
-            else
-                VehicleService.Update(model);
-
-            foreach (var service in (IEnumerable<ServiceViewModel>)dg_Services.ItemsSource)
+            try
             {
-                if (service.Id == 0)
-                {
-                    service.VehicleId = model.Id;
-                    ServiceService.Insert(service);
-                }
-                else
-                {
-                    ServiceService.Update(service);
-                }
-            }
+                var model = (VehicleViewModel)gr_Vehicle.DataContext;
 
-            ((MainWindow)Application.Current.MainWindow).ContentArea.Content = new VehiclesView();
+                if (model.Id == 0)
+                    VehicleService.Insert(model);
+                else
+                    VehicleService.Update(model);
+
+                foreach (var service in (IEnumerable<ServiceViewModel>)dg_Services.ItemsSource)
+                {
+                    if (service.Id == 0)
+                    {
+                        service.VehicleId = model.Id;
+                        ServiceService.Insert(service);
+                    }
+                    else
+                    {
+                        ServiceService.Update(service);
+                    }
+                }
+
+                ((MainWindow)Application.Current.MainWindow).ContentArea.Content = new VehiclesView();
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+            }
         }
 
         private void btn_DeleteService_Click(object sender, RoutedEventArgs e)
         {
-            var id = (int)((Button)sender).Tag;
-            ServiceService.Delete(id);
+            try
+            {
+                var id = (int)((Button)sender).Tag;
+                ServiceService.Delete(id);
 
-            var model = (VehicleViewModel)gr_Vehicle.DataContext;
-            Load(model.Id);
+                var model = (VehicleViewModel)gr_Vehicle.DataContext;
+                Load(model.Id);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+            }
         }
 
         private void btn_Brand_SelectionChanged(object sender, SelectionChangedEventArgs e)

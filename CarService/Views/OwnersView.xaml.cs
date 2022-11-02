@@ -2,6 +2,7 @@
 using CarService.Services;
 using CarService.ViewModels;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,7 +23,14 @@ namespace CarService.Views
 
         private void Load()
         {
-            dg_Owners.ItemsSource = OwnerService.GetAll();
+            try
+            {
+                dg_Owners.ItemsSource = OwnerService.GetAll();
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+            }
         }
 
         private void btn_Back_Click(object sender, RoutedEventArgs e)
@@ -30,16 +38,23 @@ namespace CarService.Views
 
         private void btn_Search_Click(object sender, RoutedEventArgs e)
         {
-            var model = (OwnerViewModel)gr_Owners.DataContext;
+            try
+            {
+                var model = (OwnerViewModel)gr_Owners.DataContext;
 
-            dg_Owners.ItemsSource = OwnerService
-                .GetAll()
-                .Where(x =>
-                    x.FirstName.IndexOf(model.FirstName, StringComparison.OrdinalIgnoreCase) >= 0 &&
-                    x.LastName.IndexOf(model.LastName, StringComparison.OrdinalIgnoreCase) >= 0
-                );
+                dg_Owners.ItemsSource = OwnerService
+                    .GetAll()
+                    .Where(x =>
+                        x.FirstName.IndexOf(model.FirstName, StringComparison.OrdinalIgnoreCase) >= 0 &&
+                        x.LastName.IndexOf(model.LastName, StringComparison.OrdinalIgnoreCase) >= 0
+                    );
 
-            dg_Owners.Items.Refresh();
+                dg_Owners.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+            }
         }
 
         private void btn_New_Click(object sender, RoutedEventArgs e)
@@ -55,9 +70,16 @@ namespace CarService.Views
 
         private void btn_Delete_Click(object sender, RoutedEventArgs e)
         {
-            var id = (int)((Button)sender).Tag;
-            OwnerService.Delete(id);
-            Load();
+            try
+            {
+                var id = (int)((Button)sender).Tag;
+                OwnerService.Delete(id);
+                Load();
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.ToString());
+            }
         }
     }
 }
